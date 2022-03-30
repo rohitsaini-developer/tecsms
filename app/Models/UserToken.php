@@ -22,6 +22,7 @@ class UserToken extends Model
     ];
 
     protected $fillable = [
+        'user_id',
         'user_email_token',
         'user_phone_token',
         'email_token_status',

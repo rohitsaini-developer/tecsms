@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Auth\Events\Registered;
 use Auth as UserAuth;
+use Illuminate\Support\Facades\Mail; 
 
 use App\Models\UserToken;
 
@@ -101,21 +102,6 @@ class RegisterController extends Controller
 
         $countryInfo = DB::table('countries')->where('id', $input['phone_country_id'])->first();
 
-        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-
-        $phoneNumberObject = $phoneNumberUtil->parse($phoneNumber, $countryInfo->sortname);
-        
-        $numberType     = $phoneNumberUtil->getNumberType($phoneNumberObject);
-        $possibleNumber = $phoneNumberUtil->isPossibleNumber($phoneNumberObject);
-        $isValidNumber  = $phoneNumberUtil->isValidNumber($phoneNumberObject);      
-
-        if(!$possibleNumber && !$isValidNumber){
-            return to_route('register')->withError('This number is not valid')->withInput();
-        } 
-        if($numberType != 1 || $numberType != 2){
-            return to_route('register')->withError('Please use mobile number')->withInput();
-        }
-
         // twillo api
         sendOtp($phoneToken, "+".$countryInfo->phonecode.$phoneNumber);
         
@@ -125,7 +111,10 @@ class RegisterController extends Controller
         // Login user
         UserAuth::login($user);
         // verify email
-        event(new Registered($user));
+        /* Mail::send('partials.email-template.verify-email', ['user_id' => $user->id,'token' => $emailToken], function($message) use($user){
+            $message->to($user->email);
+            $message->subject('Email Verification Mail');
+        }); */
         // add role
         $user->roles()->sync(3);
         // add tokens
@@ -134,6 +123,6 @@ class RegisterController extends Controller
             'user_email_token'  => $emailToken,
             'user_phone_token'  => $phoneToken,
         ]);
-        return to_route('home');        
+        return to_route('user.home');        
     }
 }

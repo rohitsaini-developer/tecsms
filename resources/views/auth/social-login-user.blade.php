@@ -13,7 +13,7 @@
                         <input type="hidden" name="name" value="{{ $userData['name'] }}">
                         <input type="hidden" name="email" value="{{ $userData['email'] }}">
                         <input type="hidden" name="social_login_id" value="{{ $userData['social_login_id'] }}">
-                        <input type="hidden" name="register_type" value="{{ $userData['register_status'] }}">
+                        <input type="hidden" name="register_type" value="{{ $userData['register_type'] }}">
 
                         <div class="row mb-3">
                             <h5 for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</h5>
