@@ -18,7 +18,6 @@ class UsersTableSeeder extends Seeder
                 'phone_number'              => "9313234655",
                 'phone_country_id'          => "91",
                 'phone_number_verified_at'  => date("Y-m-d H:i:s"),
-                'user_token'                => "0",
                 'remember_token'            => null,
                 'created_at'                => date('Y-m-d H:i:s'),
                 'updated_at'                => date('Y-m-d H:i:s'),

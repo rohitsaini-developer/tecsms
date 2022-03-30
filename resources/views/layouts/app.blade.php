@@ -84,6 +84,17 @@
         </nav>
 
         <main class="py-4">
+            @if(session('error'))
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger" role="alert">{{ session('error') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span class="" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @yield('content')
         </main>
     </div>

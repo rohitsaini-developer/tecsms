@@ -39,7 +39,3 @@ Route::post('auth/social-register', 'Auth\SocialController@socialLoginUserStore'
 Route::group(['middleware' => ['auth','preventBackHistory', 'verified']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
 });
-
-/* Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'preventBackHistory', 'verified']], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-}); */

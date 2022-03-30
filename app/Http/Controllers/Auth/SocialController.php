@@ -3,104 +3,156 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
-use Validator;
-use Socialite;
-use Exception;
-use Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use DB;
+use Illuminate\Auth\Events\Registered;
+use Auth as UserAuth;
 
-class SocialController extends Controller
+use App\Models\UserToken;
+
+class RegisterController extends Controller
 {
-    /* facebook login */
-        public function facebookRedirect()
-        {
-            return Socialite::driver('facebook')->redirect();
-        }
-        public function loginWithFacebook()
-        {
-            try {
-                $countries = \DB::table('countries')->get();
-                $user = Socialite::driver('facebook')->user();
-                $isUser = User::where('email', $user->email)->first();
-                if($isUser){
-                    Auth::login($isUser);
-                    return to_route('home');
-                } else {
-                    $userData = [
-                        'name'              => $user->name,
-                        'email'             => $user->email,
-                        'social_login_id'   => $user->id,
-                        'register_status'   =>  1,
-                    ];                
-                    return view("auth.social-login-user", compact('userData', 'countries'));
-                }    
-            } catch (Exception $exception) {
-                dd($exception->getMessage());
-            }
-        }
-    /* google login */
-        function redirectToGoogle(){
-            return Socialite::driver('google')->redirect();
-        }
-        public function handleGoogleCallback() {
-            try {
-                $countries = \DB::table('countries')->get();
-                $user = Socialite::driver('google')->user();
-                
-                $isUser = User::where('email', $user->email)->first();
+    /*
+    |--------------------------------------------------------------------------
+    | Register Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles the registration of new users as well as their
+    | validation and creation. By default this controller uses a trait to
+    | provide this functionality without requiring any additional code.
+    |
+    */
+
+    use RegistersUsers;
+
+    /**
+     * Where to redirect users after registration.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
+
+    public function showRegistrationForm()
+    {
+        $countries = DB::table('countries')->get();
+        return view('auth.register', compact('countries'));
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone_number' => ['required', 'numeric', 'unique:users,phone_number'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone_country_id' => ['exists:countries,id']
+        ]);
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\Models\User
+     */
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+    public function register(Request $request)
+    {
+        $phoneToken = str()->random(32);
+        $emailToken = str()->random(32);
+
+        $input = $request->all();
+        $this->validator($input)->validate();
+
+        $input['password'] = Hash::make($input['password']);
+
+        $input['register_type'] = 0;
+        $phoneNumber = $input['phone_number'];
+
+        $countryInfo = DB::table('countries')->where('id', $input['phone_country_id'])->first();
+
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+
+        $phoneNumberObject = $phoneNumberUtil->parse($phoneNumber, $countryInfo->sortname);
         
-                if($isUser){
-                    Auth::login($isUser);
-                    return to_route('home');
-                }else{
-                    $userData = [
-                        'name'              => $user->name,
-                        'email'             => $user->email,
-                        'social_login_id'   => $user->id,
-                        'register_status'   =>  2,
-                    ];                
-                    return view("auth.social-login-user", compact('userData', 'countries'));
-                }
+        $numberType     = $phoneNumberUtil->getNumberType($phoneNumberObject);
+        $possibleNumber = $phoneNumberUtil->isPossibleNumber($phoneNumberObject);
+        $isValidNumber  = $phoneNumberUtil->isValidNumber($phoneNumberObject);
+
         
-            } catch (Exception $e) {
-                dd($e->getMessage());
-            }
+
+        if(!$possibleNumber && !$isValidNumber){
+            return to_route('register')->withError('This number is not valid')->withInput();
+        } 
+        if($numberType != 1 || $numberType != 2){
+            return to_route('register')->withError('Please use mobile number')->withInput();
         }
-/* -------------------------------------- Save social login user ----------------------------------- */
 
-    //  social user register
-    function socialLoginUserStore(Request $request){
-        if ($request->ajax()){
-            $userToken = str()->random(32);
-            $input = $request->all();
+        // twillo api
+        sendOtp($phoneToken, $countryInfo->phonecode.$phoneNumber);
+        /* $receiverNumber = $countryInfo->phonecode.$phoneNumber;
+        $message = "This is testing otp from tecsms".$otp;
+        try {  
+            $account_sid = env("TWILIO_SID");
+            $auth_token = env("TWILIO_TOKEN");
+            $twilio_number = env("TWILIO_FROM");
+  
+            $client = new Client($account_sid, $auth_token);
+            $client->messages->create($receiverNumber, [
+                'from' => $twilio_number, 
+                'body' => $message]);
+  
+            dd('SMS Sent Successfully.');
+  
+        } catch (Exception $e) {
+            dd("Error: ". $e->getMessage());
+        } */
+        dd($numberType, $possibleNumber, $isValidNumber);
 
-            $validator = Validator::make($input, [
-                'phone_number' => ['required', 'numeric', 'unique:users,phone_number'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
-                'phone_country_id' => ['exists:countries,id']
-            ]);
-            if (!$validator->passes()) {
-                return response()->json(['success'=>false,'errors'=>$validator->getMessageBag()->toArray(),'message'=>'Error Occured!'],400);
-            }
-
-            $input['password'] = Hash::make($input['password']);
-            $input['email_verified_at'] = date('Y-m-d H:i:s');
-            $input['phone_number_verified_at'] = null;
-
-            $input['user_token'] = $userToken;
-            $user = User::create($input);
-            $user->roles()->sync(3);
-
-            $redirectUrl = route('home');
-            Auth::login($user);
-            $response = [
-                'success'   => true,
-                'redirect_url'  => $redirectUrl,
-                'message'   => "Resister Successfully",
-            ];
-            return response()->json($response);
-        }        
+        // create user
+        $user = User::create($input);
+        // Login user
+        UserAuth::login($user);
+        // verify email
+        event(new Registered($user));
+        // add role
+        $user->roles()->sync(3);
+        // add tokens
+        UserToken::create([
+            'user_di'   => $user->id,
+            'user_email_token'  => $emailToken,
+            'user_phone_token'  => $phoneToken,
+        ]);
+        return to_route('home');        
     }
 }

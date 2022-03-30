@@ -19,7 +19,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
-        'user_token',
     ];
 
     protected $dates = [
@@ -34,17 +33,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'email_verified_at',
         'phone_number',
-        'phone_number_verified_at',
-        'user_token',
         'phone_country_id',
-        'register_status',
+        'phone_number_verified_at',
+        'register_type',
         'social_login_id',
         'created_at',
         'updated_at',
         'deleted_at',
         'remember_token',
-        'email_verified_at',
     ];
     
     protected function serializeDate(\DateTimeInterface $date)
@@ -69,5 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function userToken()
+    {
+        return $this->hasOne(UserToken::class);
     }
 }

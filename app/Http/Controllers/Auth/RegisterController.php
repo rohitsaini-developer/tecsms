@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Auth\Events\Registered;
+use Auth as UserAuth;
+
+use App\Models\UserToken;
 
 class RegisterController extends Controller
 {
@@ -85,25 +88,71 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $userToken = str()->random(32);
+        $phoneToken = str()->random(32);
+        $emailToken = str()->random(32);
 
         $input = $request->all();
         $this->validator($input)->validate();
 
         $input['password'] = Hash::make($input['password']);
-        $input['email_verified_at'] = null;
-        $input['phone_number_verified_at'] = null;
 
-        $input['user_token'] = $userToken;
-        $input['register_status'] = 0;
-        $input['first_social_media_login'] = 1;
+        $input['register_type'] = 0;
+        $phoneNumber = $input['phone_number'];
+
+        $countryInfo = DB::table('countries')->where('id', $input['phone_country_id'])->first();
+
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+
+        $phoneNumberObject = $phoneNumberUtil->parse($phoneNumber, $countryInfo->sortname);
         
+        $numberType     = $phoneNumberUtil->getNumberType($phoneNumberObject);
+        $possibleNumber = $phoneNumberUtil->isPossibleNumber($phoneNumberObject);
+        $isValidNumber  = $phoneNumberUtil->isValidNumber($phoneNumberObject);
+
+        
+
+        /* if(!$possibleNumber && !$isValidNumber){
+            return to_route('register')->withError('This number is not valid')->withInput();
+        } 
+        if($numberType != 1 || $numberType != 2){
+            return to_route('register')->withError('Please use mobile number')->withInput();
+        } */
+
+        // twillo api
+        sendOtp($phoneToken, "+".$countryInfo->phonecode.$phoneNumber);
+        /* $receiverNumber = $countryInfo->phonecode.$phoneNumber;
+        $message = "This is testing otp from tecsms".$otp;
+        try {  
+            $account_sid = env("TWILIO_SID");
+            $auth_token = env("TWILIO_TOKEN");
+            $twilio_number = env("TWILIO_FROM");
+  
+            $client = new Client($account_sid, $auth_token);
+            $client->messages->create($receiverNumber, [
+                'from' => $twilio_number, 
+                'body' => $message]);
+  
+            dd('SMS Sent Successfully.');
+  
+        } catch (Exception $e) {
+            dd("Error: ". $e->getMessage());
+        } */
+        dd($numberType, $possibleNumber, $isValidNumber);
+
+        // create user
         $user = User::create($input);
-
+        // Login user
+        UserAuth::login($user);
+        // verify email
         event(new Registered($user));
-
+        // add role
         $user->roles()->sync(3);
-
-        return to_route('home');
+        // add tokens
+        UserToken::create([
+            'user_di'   => $user->id,
+            'user_email_token'  => $emailToken,
+            'user_phone_token'  => $phoneToken,
+        ]);
+        return to_route('home');        
     }
 }
