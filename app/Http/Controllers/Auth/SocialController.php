@@ -28,7 +28,7 @@ class SocialController extends Controller
                 $isUser = User::where('email', $user->email)->first();
                 if($isUser){
                     Auth::login($isUser);
-                    return to_route('home');
+                    return to_route('user.home');
                 } else {
                     $userData = [
                         'name'              => $user->name,
@@ -55,7 +55,7 @@ class SocialController extends Controller
         
                 if($isUser){
                     Auth::login($isUser);
-                    return to_route('home');
+                    return to_route('user.home');
                 }else{
                     $userData = [
                         'name'              => $user->name,
@@ -91,17 +91,23 @@ class SocialController extends Controller
             $input['password'] = Hash::make($input['password']);
             $input['email_verified_at'] = date('Y-m-d H:i:s');
 
+            $countryInfo = \DB::table('countries')->where('id', $input['phone_country_id'])->first();
+            $phoneNumber = $input['phone_number'];
+
+            sendOtp($phoneToken, "+".$countryInfo->phonecode.$phoneNumber);
+
             $user = User::create($input);
-            $user->roles()->sync(3);
 
             UserToken::create([
-                'user_di'   => $user->id,
+                'user_id'   => $user->id,
                 'user_email_token'  => $emailToken,
                 'email_token_status'    => 2,
                 'user_phone_token'  => $phoneToken,
             ]);
 
-            $redirectUrl = route('home');
+            $user->roles()->sync(3);
+
+            $redirectUrl = route('user.home');
             Auth::login($user);
             $response = [
                 'success'   => true,
