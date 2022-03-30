@@ -22,6 +22,7 @@ class CreateSettingsTable extends Migration
             $table->longText('details')->nullable();
             $table->boolean('status')->default(1)->comment('0=>Disable,1=>Enable');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

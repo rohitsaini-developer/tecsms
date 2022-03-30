@@ -12,6 +12,7 @@ use Exception;
 use Auth;
 
 use App\Models\UserToken;
+use App\Models\Country;
 
 class SocialController extends Controller
 {
@@ -23,7 +24,7 @@ class SocialController extends Controller
         public function loginWithFacebook()
         {
             try {
-                $countries = \DB::table('countries')->get();
+                $countries = Country::all();
                 $user = Socialite::driver('facebook')->user();
                 $isUser = User::where('email', $user->email)->first();
                 if($isUser){
@@ -48,7 +49,7 @@ class SocialController extends Controller
         }
         public function handleGoogleCallback() {
             try {
-                $countries = \DB::table('countries')->get();
+                $countries = Country::all();
                 $user = Socialite::driver('google')->user();
                 
                 $isUser = User::where('email', $user->email)->first();
@@ -87,16 +88,14 @@ class SocialController extends Controller
             if (!$validator->passes()) {
                 return response()->json(['success'=>false,'errors'=>$validator->getMessageBag()->toArray(),'message'=>'Error Occured!'],400);
             }
-
             $input['password'] = Hash::make($input['password']);
             $input['email_verified_at'] = date('Y-m-d H:i:s');
 
-            $countryInfo = \DB::table('countries')->where('id', $input['phone_country_id'])->first();
+            $countryInfo = Country::where('id', $input['phone_country_id'])->first();
             $phoneNumber = $input['phone_number'];
 
-            sendOtp($phoneToken, "+".$countryInfo->phonecode.$phoneNumber);
-
             $user = User::create($input);
+            sendToken($phoneToken, "+".$countryInfo->phonecode.$phoneNumber, $user->id);
 
             UserToken::create([
                 'user_id'   => $user->id,

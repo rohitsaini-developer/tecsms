@@ -9,6 +9,8 @@ class Country extends Model
 {
     use SoftDeletes;    
 
+    public $table = 'countries';
+
     protected $dates = [
         'created_at',
         'updated_at',
