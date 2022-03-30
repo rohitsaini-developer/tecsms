@@ -107,37 +107,18 @@ class RegisterController extends Controller
         
         $numberType     = $phoneNumberUtil->getNumberType($phoneNumberObject);
         $possibleNumber = $phoneNumberUtil->isPossibleNumber($phoneNumberObject);
-        $isValidNumber  = $phoneNumberUtil->isValidNumber($phoneNumberObject);
+        $isValidNumber  = $phoneNumberUtil->isValidNumber($phoneNumberObject);      
 
-        
-
-        /* if(!$possibleNumber && !$isValidNumber){
+        if(!$possibleNumber && !$isValidNumber){
             return to_route('register')->withError('This number is not valid')->withInput();
         } 
         if($numberType != 1 || $numberType != 2){
             return to_route('register')->withError('Please use mobile number')->withInput();
-        } */
+        }
 
         // twillo api
         sendOtp($phoneToken, "+".$countryInfo->phonecode.$phoneNumber);
-        /* $receiverNumber = $countryInfo->phonecode.$phoneNumber;
-        $message = "This is testing otp from tecsms".$otp;
-        try {  
-            $account_sid = env("TWILIO_SID");
-            $auth_token = env("TWILIO_TOKEN");
-            $twilio_number = env("TWILIO_FROM");
-  
-            $client = new Client($account_sid, $auth_token);
-            $client->messages->create($receiverNumber, [
-                'from' => $twilio_number, 
-                'body' => $message]);
-  
-            dd('SMS Sent Successfully.');
-  
-        } catch (Exception $e) {
-            dd("Error: ". $e->getMessage());
-        } */
-        dd($numberType, $possibleNumber, $isValidNumber);
+        
 
         // create user
         $user = User::create($input);
