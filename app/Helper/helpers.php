@@ -55,3 +55,9 @@ if (! function_exists('sendMail')) {
         });
     }
 }
+if (! function_exists('is_active')) {
+    function is_active($route)
+    {
+        return request()->routeIs($route) ? 'active' : '';
+    }
+}

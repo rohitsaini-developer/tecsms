@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -48,8 +49,64 @@ class LoginController extends Controller
     {
         if(!Auth::check()){ 
              return view('auth.admin.login');
-        }else{
-            return redirect()->intended('/dashboard');
+        }
+    }
+    public function login(Request $request) {
+        $this->validate($request, [
+            'email'    => 'required',
+            'password' => 'required',
+        ]);
+        $previousUrl = url()->previous();
+        $arrayUrl    = explode('/', $previousUrl);
+        $flag = 0;
+        
+        if(in_array('admin', $arrayUrl)){
+            $flag =1;
+        }
+        $remember_me = $request->has('remember') ? true : false; 
+        if (Auth::attempt($request->only('email', 'password'), $remember_me)) {
+            $user = Auth::user();  
+            $role = $user->roles->first()->id;
+            if($flag == 1){
+                if($role == 1){
+                    return to_route('admin.home');
+                } else {
+                    auth()->logout();
+                }
+            } else {
+                if($role != 1){
+                    return to_route('user.home');
+                } else {
+                    auth()->logout();
+                }
+            }
+        }
+
+        return redirect()->back()
+            ->withInput()
+            ->withErrors([
+                'email' => 'These credentials do not match our records.',
+            ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();  
+        $role = $user->roles->first()->id;
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+        if($role == 1){
+            return to_route('admin.login');
+        } else {
+            return to_route('login');
         }
     }
 }
