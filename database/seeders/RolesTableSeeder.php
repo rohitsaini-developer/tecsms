@@ -1,7 +1,7 @@
 <?php
 namespace Database\Seeders;
 
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 
 class RolesTableSeeder extends Seeder
@@ -10,26 +10,26 @@ class RolesTableSeeder extends Seeder
     {
         $roles = [
             [
-                'id'         => 1,
-                'title'      => 'Super Admin',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'admin',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => 2,
-                'title'      => 'Postpaid',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'postpaid',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => 3,
-                'title'      => 'Prepaid',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]
+                'name'          => 'prepaid',
+                'guard_name'    => 'web',
+            ],
         ];
 
-        Role::insert($roles);
-
+        foreach($roles as $role){
+            $existingRole = Role::where('name', $role['name'])->exists();
+            if (!$existingRole) {
+                $role = Role::create($role);
+            }
+        }
     }
+    
+    
 }

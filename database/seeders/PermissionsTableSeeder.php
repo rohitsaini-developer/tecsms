@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Permission;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder
@@ -11,64 +11,44 @@ class PermissionsTableSeeder extends Seeder
     {
         $permissions = [
             [
-                'id'         => '1',
-                'title'      => 'permission_create',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'permission_create',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '2',
-                'title'      => 'permission_edit',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'permission_edit',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '3',
-                'title'      => 'permission_show',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'permission_show',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '4',
-                'title'      => 'permission_delete',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'permission_delete',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '5',
-                'title'      => 'permission_access',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'permission_access',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '6',
-                'title'      => 'role_create',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'role_create',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '7',
-                'title'      => 'role_edit',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'role_edit',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '8',
-                'title'      => 'role_show',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'          => 'role_show',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '9',
-                'title'      => 'role_delete',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'      => 'role_delete',
+                'guard_name'    => 'web',
             ],
             [
-                'id'         => '10',
-                'title'      => 'role_access',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'name'      => 'role_access',
+                'guard_name'    => 'web',
             ],
         ];
         Permission::insert($permissions);

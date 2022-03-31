@@ -66,15 +66,14 @@ class LoginController extends Controller
         $remember_me = $request->has('remember') ? true : false; 
         if (Auth::attempt($request->only('email', 'password'), $remember_me)) {
             $user = Auth::user();  
-            $role = $user->roles->first()->id;
             if($flag == 1){
-                if($role == 1){
+                if($user->hasRole('admin')){
                     return to_route('admin.home');
                 } else {
                     auth()->logout();
                 }
             } else {
-                if($role != 1){
+                if(!$user->hasRole('admin')){
                     return to_route('user.home');
                 } else {
                     auth()->logout();
@@ -92,7 +91,6 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::user();  
-        $role = $user->roles->first()->id;
 
         $this->guard()->logout();
 
@@ -103,7 +101,7 @@ class LoginController extends Controller
         if ($response = $this->loggedOut($request)) {
             return $response;
         }
-        if($role == 1){
+        if($user->hasRole('admin')){
             return to_route('admin.login');
         } else {
             return to_route('login');

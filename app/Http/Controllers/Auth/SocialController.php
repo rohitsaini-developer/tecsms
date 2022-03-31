@@ -107,7 +107,7 @@ class SocialController extends Controller
                 'user_phone_token'  => $phoneToken,
             ]);
 
-            $user->roles()->sync(3);
+            $user->assignRole(3);
 
             $redirectUrl = route('user.home');
             Auth::login($user);

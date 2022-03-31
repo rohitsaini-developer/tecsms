@@ -23,8 +23,6 @@ class UsersTableSeeder extends Seeder
                 'updated_at'                => date('Y-m-d H:i:s'),
             ],
         ];
-
         User::insert($users);
-
     }
 }

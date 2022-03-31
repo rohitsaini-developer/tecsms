@@ -61,6 +61,10 @@ Route::group(['middleware' => ['preventBackHistory']],function(){
  */
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['preventBackHistory']], function () {
     Route::get('/dashboard', 'HomeController@index')->name('home');
+
+    Route::resource('users', 'UserController');
+
+    Route::resource('permissions', 'PermissionController');
 });
 
 /**

@@ -99,8 +99,6 @@ class RegisterController extends Controller
         $input['password'] = Hash::make($input['password']);
 
         $input['register_type'] = 0;
-        $phoneNumber = $input['phone_number'];
-
         $countryInfo = Country::where('id', $input['phone_country_id'])->first();
 
         // create user
@@ -114,7 +112,7 @@ class RegisterController extends Controller
         sendMail('partials.email-template.verify-email', ['user_id' => $user->id,'token' => $emailToken], $user);
         
         // add role
-        $user->roles()->sync(3);
+        $user->assignRole(3);
         // add tokens
         UserToken::create([
             'user_id'   => $user->id,

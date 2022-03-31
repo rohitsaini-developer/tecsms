@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+        <!-- Datatable -->
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @yield('styles')
     </head>
@@ -45,6 +47,14 @@
     <script src="{{ asset('js/feather.min.js') }}"></script>
     <script src="{{ asset('plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
+
+    <!-- Datatables -->
+    <script src="{{ asset('data-tables/js/datatables.min.js') }}" defer></script>
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js')}}" defer></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" defer></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <!-- End Datatables -->
+
     <script>
         $(document).ready(function() {
             $(".nav-item").on('click', function(){
