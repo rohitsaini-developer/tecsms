@@ -22,9 +22,12 @@ Route::get('/clear-cache', function () {
 });
 
 Route::redirect('/', 'login');
+
 Route::group(['middleware' => ['preventBackHistory']],function(){
     Auth::routes();
+    Route::get('/admin/login', 'Auth\LoginController@adminCreate')->name('admin.login');
 });
+
 // verify user and email
     Route::get('verify-user', function(){
         return view('auth.verify');

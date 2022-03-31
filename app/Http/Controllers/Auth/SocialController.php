@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Auth;
 use Validator;
 use Socialite;
 use Exception;
-use Auth;
-
+use App\Models\User;
 use App\Models\UserToken;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class SocialController extends Controller
 {
-    /* facebook login */
+    /* Facebook login */
         public function facebookRedirect()
         {
             return Socialite::driver('facebook')->redirect();
@@ -39,10 +38,12 @@ class SocialController extends Controller
                     return view("auth.social-login-user", compact('userData', 'countries'));
                 }    
             } catch (Exception $exception) {
-                dd($exception->getMessage());
+                // dd($exception->getMessage());
+                return abort(404);
             }
         }
-    /* google login */
+
+    /* Google login */
         function redirectToGoogle(){
             return Socialite::driver('google')->redirect();
         }
@@ -67,12 +68,13 @@ class SocialController extends Controller
                 }
         
             } catch (Exception $e) {
-                dd($e->getMessage());
+                // dd($e->getMessage());
+                return abort(404);
             }
         }
 /* -------------------------------------- Save social login user ----------------------------------- */
 
-    //  social user register
+    //  Social user register
     function socialLoginUserStore(Request $request){
         if ($request->ajax()){
             $phoneToken = str()->random(32);
