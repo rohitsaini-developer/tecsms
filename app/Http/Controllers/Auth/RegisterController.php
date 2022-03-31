@@ -10,11 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use DB;
-use Illuminate\Auth\Events\Registered;
 use Auth as UserAuth;
-use Illuminate\Support\Facades\Mail; 
-
 use App\Models\UserToken;
+use App\Models\Country;
 
 class RegisterController extends Controller
 {
@@ -51,7 +49,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $countries = DB::table('countries')->get();
+        $countries = Country::all();
         return view('auth.register', compact('countries'));
     }
 
@@ -89,8 +87,11 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $phoneToken = str()->random(32);
-        $emailToken = str()->random(32);
+        // $phoneToken = str()->random(32);
+        // $emailToken = str()->random(32);
+
+        $phoneToken = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTVWXYZ"), 0, 6);
+        $emailToken = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTVWXYZ"), 0, 6);
 
         $input = $request->all();
         $this->validator($input)->validate();
@@ -100,26 +101,23 @@ class RegisterController extends Controller
         $input['register_type'] = 0;
         $phoneNumber = $input['phone_number'];
 
-        $countryInfo = DB::table('countries')->where('id', $input['phone_country_id'])->first();
-
-        // twillo api
-        sendOtp($phoneToken, "+".$countryInfo->phonecode.$phoneNumber);
-        
+        $countryInfo = Country::where('id', $input['phone_country_id'])->first();
 
         // create user
         $user = User::create($input);
+
+        // twillo api
+        sendToken($phoneToken, "+".$countryInfo->phonecode.$user->phone_number, $user->id);
         // Login user
         UserAuth::login($user);
         // verify email
-        /* Mail::send('partials.email-template.verify-email', ['user_id' => $user->id,'token' => $emailToken], function($message) use($user){
-            $message->to($user->email);
-            $message->subject('Email Verification Mail');
-        }); */
+        sendMail('partials.email-template.verify-email', ['user_id' => $user->id,'token' => $emailToken], $user);
+        
         // add role
         $user->roles()->sync(3);
         // add tokens
         UserToken::create([
-            'user_di'   => $user->id,
+            'user_id'   => $user->id,
             'user_email_token'  => $emailToken,
             'user_phone_token'  => $phoneToken,
         ]);

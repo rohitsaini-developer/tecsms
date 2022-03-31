@@ -33,12 +33,11 @@ Route::group(['middleware' => ['preventBackHistory']],function(){
         return view('auth.verify');
     })->name('auth.verify.user'); 
 
-    /* Route::get('account/verify/email/{user_id}/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify.email'); 
-    Route::get('account/verify/phone/{user_id}/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify.phone');  */
+    Route::get('account/verify/email/{user_id}/{token}', 'Auth\AuthController@verifyEmailAccount')->name('user.verify.email'); 
+    Route::get('account/verify/phone/{user_id}/{token}', 'Auth\AuthController@verifyPhoneAccount')->name('user.verify.phone'); 
 
-    /* Route::get('account/verify/email/{user_id}/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify.email'); 
-    Route::get('account/verify/phone/{user_id}/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify.phone'); */
-
+    Route::post('resend-verify-email', 'Auth\AuthController@resendEmailVarification')->name('verification.resend.email'); 
+    Route::post('resend-verify-phone', 'Auth\AuthController@resendPhoneNumberVarification')->name('verification.resend.phone');
 
 // facebook login
 Route::get('auth/facebook', 'Auth\SocialController@facebookRedirect')->name('auth.facebook');
