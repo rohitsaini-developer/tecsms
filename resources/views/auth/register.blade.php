@@ -115,7 +115,7 @@
                             
                             <div class="col-md-6 row">
                                 <div class="col-md-4">
-                                    <select name="phone_country_id" id="country_id" class="form-control @error('phone_country_id') is-invalid @enderror">
+                                    <select name="phone_country_id" id="country_id" class="form-control select2 @error('phone_country_id') is-invalid @enderror">
                                         @foreach($countries as $country)
                                             <option value="{{ $country->id }}"> +{{ $country->phonecode }} {{ $country->sortname }} </option>
                                         @endforeach

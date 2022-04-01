@@ -1,7 +1,6 @@
 @extends('layouts.admin')
+
 @section('content')
-
-
 <div class="page-wrapper">
     <div class="content container-fluid">
         <!-- Start title-header section -->
@@ -10,15 +9,15 @@
                 <div class="col">
                     <h3 class="page-title">{{ pageTitle() }}</h3>
                     <!-- [ breadcrumb ] start -->
-
                     {{--@include('admin.partials.breadcrumb')--}}
-
                     <!-- [ breadcrumb ] end -->
                 </div>
                 <div class="col-auto">
+                    @can('permission-add')
                     <a href="{{ route('admin.permissions.create') }}" class="btn btn-primary me-1 add-btn">
-                        <i class="fas fa-plus"> </i> Add Permissions
+                        <i class="fas fa-plus"> </i> Add Permission
                     </a>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -30,7 +29,7 @@
                     '{{ session()->get('success') }}',
                     'success'
                 ).then(function() {
-                    location.reload();
+                    // location.reload();
                 });
             @endif
 
@@ -40,7 +39,7 @@
                     '{{ session()->get('error') }}',
                     'error'
                 ).then(function() {
-                    location.reload();
+                    // location.reload();
                 });
             @endif
             
@@ -73,17 +72,15 @@
         var formData = $(this).serialize();
         var url = $(this).attr('action');
     
-        swal.fire({
-            title: "{{ trans('global.areYouSure') }}",
-            text: "{{ trans('global.onceClickedRecordDeleted') }}",
-            icon: 'question',
-            type: "warning",
-            showCancelButton: !0,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel!",
-            reverseButtons: !0
-        }).then(function (e) {
-            if (e.value === true) {
+        Swal.fire({
+        title: "Are you sure?",
+        icon: "question",
+        text: "Do you want to delete permission?",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
                     type: 'delete',
                     url: url,
@@ -91,12 +88,18 @@
                     dataType: 'JSON',
                     success: function (response) {
                         if (response.success == true) {
-                            fireSuccessSwal('Success',response.message);
-                            setTimeout(function(){
-                                location.reload();
-                            },1000);
+                            Swal.fire(
+                                'Success!',
+                                response.message,
+                                'success'
+                            );
+                            $('#permissions-table').DataTable().ajax.reload(null, false);
                         } else {
-                            fireErrorSwal('Error',response.message);
+                            Swal.fire(
+                                'Error!',
+                                response.message,
+                                'error'
+                            );
                         }
                     }
                 });

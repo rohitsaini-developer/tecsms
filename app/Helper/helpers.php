@@ -34,7 +34,7 @@ if (! function_exists('sendToken')) {
 
         try {
             $twilio_number  = "+17168696043";
-            $client = new Client("ACf4ff923ef0a459595ca29bdf24e5c198","32d84f4b0adde8106ce84b9f20813df2");
+            $client = new Client("ACf4ff923ef0a459595ca29bdf24e5c198","52fc998c9a8dc78f53ab6e9a20a880a8");
             $client->messages->create($receiverNumber, [
                 'from' => $twilio_number, 
                 'body' => $message

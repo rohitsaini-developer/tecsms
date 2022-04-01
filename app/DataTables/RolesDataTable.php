@@ -2,13 +2,13 @@
 
 namespace App\DataTables;
 
-use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Gate;
 
-class PermissionsDataTable extends DataTable
+class RolesDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -26,12 +26,16 @@ class PermissionsDataTable extends DataTable
             })                
             ->addColumn('action', function($record) {
                 $action  = '';
-                if (Gate::check('permission-edit')) {
-                    $action .= '<a href="'.route('admin.permissions.edit', $record->id).'" class="text-orange me-2" style="float:left;" title="Edit"><i class="far fa-edit me-1"></i> 
+                if (Gate::check('role-edit')) {
+                    $action .= '<a href="'.route('admin.roles.show', $record->id).'" class="text-blue me-2" style="float:left;" title="View"><i class="far fa-eye me-1"></i>
                     </a>';
                 }
-                if (Gate::check('permission-delete')) {
-                    $action .= '<form class="deletePermissionForm" action="'.route('admin.permissions.destroy', $record->id).'" method="POST">
+                if (Gate::check('role-view')) {
+                    $action .= '<a href="'.route('admin.roles.edit', $record->id).'" class="text-orange me-2" style="float:left;" title="Edit"><i class="far fa-edit me-1"></i> 
+                    </a>';
+                }
+                if (Gate::check('role-delete')) {
+                    $action .= '<form class="deleteRoleForm" action="'.route('admin.roles.destroy', $record->id).'" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="'.csrf_token().'">
                         <button class="btn btn-sm p-0 text-danger me-2" type="submit"><i class="far fa-trash-alt me-1"></i></button></form>';
@@ -44,12 +48,12 @@ class PermissionsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Permission $model
+     * @param \App\Models\Role $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Permission $model)
+    public function query(Role $model)
     {
-        return $model->newQuery();
+        return $model->where('id',"!=", 1)->newQuery();
     }
 
     /**
@@ -60,7 +64,7 @@ class PermissionsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('permissions-table')
+                    ->setTableId('roles-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('lfrtip')
@@ -96,6 +100,6 @@ class PermissionsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Permissions_' . date('YmdHis');
+        return 'Roles_' . date('YmdHis');
     }
 }

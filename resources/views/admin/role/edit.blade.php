@@ -18,9 +18,7 @@
                 <div class="col">
                     <h3 class="page-title">{{ pageTitle() }}</h3>
                     <!-- [ breadcrumb ] start -->
-
-                    @include('admin.partials.breadcrumb')
-
+                    {{--@include('admin.partials.breadcrumb')--}}
                     <!-- [ breadcrumb ] end -->
                 </div>
             </div>
@@ -63,62 +61,9 @@
 
                                     
 
-                        {!! Form::open(['route'=>['roles.update', $role->id], 'method'=>'put', 'id' => 'admin-role-edit-form']) !!}
+                        {!! Form::open(['route'=>['admin.roles.update', $role->id], 'method'=>'put', 'id' => 'admin-role-edit-form']) !!}
 
-                            <div class="row">
-
-                                <div class="col-sm-12">
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-2">Role Name</label>
-                                        <div class="col-md-10">
-                                        {!! Form::text('name', old('name', $role->name), ['class'=>'form-control','placeholder'=>'Enter Role Name']) !!}
-                                        </div>
-                                        @error('name')
-                                        <span class="invalid feedback text-danger custm-right" role="alert">
-                                        {{ $message }}.
-                                        </span>
-                                        @enderror
-                                   </div>
-                                </div>
-
-                                <div class="col-sm-12">
-                                    <div class="form-group row">
-                                        <label class="col-form-label">Select Permission</label>
-                                        @if(!empty($permissions_array))
-                                            @foreach($permissions_array as $groups=>$val )
-                                                <h6>{{Str::ucfirst($groups)}}</h6>
-                                                @foreach($val as $x=>$permission)
-                                                    @if (in_array($x, $selected_permission))
-                                                       @php  $check = "checked"; @endphp
-                                                    @else
-                                                        @php  $check = ""; @endphp
-                                                    @endif
-                                                    <div class="col-md-3 ">
-                                                    <div class="checkbox-btn-custm">
-                                                        <input type="checkbox" {{$check}}  name="permissions[]" value="{{$x}}">
-                                                       
-                                                        <label for="vehicle1">{{$permission}}</label> 
-                                                    </div>
-                                                    </div>
-                                                @endforeach
-                                            @endforeach
-                                        @endif
-                                    @error('permissions')
-                                    <span class="invalid feedback text-danger custm-right" role="alert">
-                                    {{ $message }}.
-                                    </span>
-                                    @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-12">
-
-                                    {!! Form::submit('Update',['class'=>'btn btn-primary']) !!}
-
-                                </div>
-
-                            </div>
+                        @include('admin.role._form')
 
                         {!! Form::close() !!}
 

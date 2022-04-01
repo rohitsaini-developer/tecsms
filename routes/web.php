@@ -63,9 +63,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('/dashboard', 'HomeController@index')->name('home');
 
     Route::resource('users', 'UserController');
-
+    Route::resource('roles', 'RoleController');
     Route::resource('permissions', 'PermissionController');
+
+    Route::get('/user/change-password/{id}', 'UserController@changePasswordByAdmin')->name('users.changePasswordByAdmin');
+    Route::post('/user/update-password/{id}', 'UserController@updatePasswordByAdmin')->name('users.updatePasswordByAdmin');
 });
+
+// change password by current user
+Route::get('/change-password', 'Admin\UserController@changePassword')->name('users.changePassword')->middleware('auth');
+Route::post('/updatepassword', 'Admin\UserController@updatePassword')->name('update-password');
 
 /**
  * user data

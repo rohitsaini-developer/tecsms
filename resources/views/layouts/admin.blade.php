@@ -19,10 +19,28 @@
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome/css/fontawesome.min.css')}}">
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
+        <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
         <!-- Datatable -->
+        <link rel="stylesheet" href="{{ asset('plugins/datatables/datatables.min.css') }}">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <style>
+            .select2-container .select2-selection--single {
+                background: #ffffff;
+                padding: 10px 20px;
+                font-size: 14px;
+                border-color: #ced4da;
+                height: 43px;
+            }
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                line-height: 20px;
+                padding: 0;
+            }
+            .select2-container .select2-selection--single .select2-selection__arrow {
+                height: 41px;
+            }
+        </style>
         @yield('styles')
     </head>
 <body>
@@ -48,15 +66,21 @@
     <script src="{{ asset('plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
     <!-- Datatables -->
-    <script src="{{ asset('data-tables/js/datatables.min.js') }}" defer></script>
-    <script src="{{ asset('vendor/datatables/buttons.server-side.js')}}" defer></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" defer></script>
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js')}}"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+
+    <script src="{{ URL::asset('plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ URL::asset('plugins/datatables/datatables.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <!-- End Datatables -->
 
     <script>
         $(document).ready(function() {
+            $('.select2').select2();
             $(".nav-item").on('click', function(){
 
                 var active_tab_id = $(this).find('.has-ripple.active').attr('href')

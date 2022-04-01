@@ -30,13 +30,15 @@
 			</a>
 			<div class="dropdown-menu">
 				@can('user-profile-access')
-					<!-- <a class="dropdown-item" href="{{ route('users.profile') }}"><i data-feather="user" class="me-1"></i> Profile</a> -->
+					{{-- <a class="dropdown-item" href="{{ route('users.profile') }}"><i data-feather="user" class="me-1"></i> Profile</a> --}}
 				@endcan
 				@can('change-setting')
 					<a class="dropdown-item" href="#"><i class="fas fa-cogs me-1"></i> Settings</a>
 				@endcan
 				@can('user-change-password')
-					<a class="dropdown-item" href="#"><i class="fas fa-lock me-1"></i> Change Password</a>
+					@if(auth()->user()->hasRole('admin'))
+						<a class="dropdown-item" href="{{ route('users.changePassword') }}"><i class="fas fa-lock me-1"></i> Change Password</a>
+					@endif
 				@endcan
 				<form method="POST" id="loginSubmit" action="{{ route('logout') }}">
 					@csrf

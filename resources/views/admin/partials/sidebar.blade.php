@@ -6,17 +6,17 @@
                     <a  href="{{ route('admin.home') }}"><i data-feather="home"></i> <span>Dashboard</span></a>
                 </li>
                 @if(Auth::user()->hasRole('admin'))
-                <li class="submenu {{ is_active('permissions*') }} {{ is_active('roles*') }} {{ is_active('users*') }}">
-                    <a href="#" class="{{ is_active('permissions*') }} {{ is_active('roles*') }} {{ is_active('users*') }}"> <i data-feather="users"></i><span> User Managment</span> <span class="menu-arrow"></span></a>
+                <li class="submenu {{ is_active('admin.permissions*') }} {{ is_active('admin.roles*') }} {{ is_active('admin.users*') }}">
+                    <a href="#" class="{{ is_active('admin.permissions*') }} {{ is_active('admin.roles*') }} {{ is_active('admin.users*') }}"> <i data-feather="users"></i><span> User Managment</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        @can('permission_access')
-                            <li><a class="{{ is_active('permissions*') }}" href="{{ route('admin.permissions.index') }}"><i class="fas fa-user-shield"></i> Permissions</a></li>
+                        @can('permission-browse')
+                            <li><a class="{{ is_active('admin.permissions*') }}" href="{{ route('admin.permissions.index') }}"><i class="fas fa-user-shield"></i> Permissions</a></li>
                         @endcan
-                        @can('role_access')
-                            <li><a class="{{ is_active('roles*') }}" href="#"><i class="fas fa-user-tag"></i> Roles</a></li>
+                        @can('role-browse')
+                            <li><a class="{{ is_active('admin.roles*') }}" href="{{ route('admin.roles.index') }}"><i class="fas fa-user-tag"></i> Roles</a></li>
                         @endcan
-                        @can('user_access')
-                            <li><a class="{{ is_active('users*') }}" href="#"><i class="fas fa-users"></i> Users</a></li>
+                        @can('user-browse')
+                            <li><a class="{{ is_active('admin.users*') }}" href="{{ route('admin.users.index') }}"><i class="fas fa-users"></i> Users</a></li>
                         @endcan
                     </ul>
                 </li>

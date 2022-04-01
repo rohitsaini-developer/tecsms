@@ -16,9 +16,7 @@
                 <div class="col">
                     <h3 class="page-title">{{ pageTitle() }}</h3>
                     <!-- [ breadcrumb ] start -->
-
-                    @include('admin.partials.breadcrumb')
-
+                    {{--@include('admin.partials.breadcrumb')--}}
                     <!-- [ breadcrumb ] end -->
                 </div>
             </div>
@@ -53,82 +51,10 @@
                        </script>                               
 
                         
-                        {!! Form::open(['route'=>'permissions.store', 'id' => 'admin-permission-add-form']) !!}
+                        {!! Form::open(['route'=>'admin.permissions.store', 'id' => 'admin-permission-add-form']) !!}
 
-                            <div class="row">
-
-                                <div class="col-sm-6">
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Permission Name</label>
-                                        <div class="col-md-8">
-                                            {!! Form::text('name', old('name'), ['class'=>'form-control','placeholder'=>'Enter Permission Name']) !!}
-                                        </div>
-                                    @error('name')
-                                    <span class="invalid feedback text-danger" role="alert">
-                                    {{ $message }}
-                                    </span>
-                                    @enderror
-                                   </div>
-                                </div>
-
-                                <div class="col-sm-6">
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Controller Name</label>
-                                        <div class="col-md-8">
-                                            {!! Form::text('controller_name', old('controller_name'), ['class'=>'form-control','placeholder'=>'Enter Controller Name']) !!}
-                                        </div>
-                                   </div>
-
-                                   @error('controller_name')
-
-                                        <span class="invalid feedback text-danger" role="alert">
-
-                                        {{ $message }}
-
-                                        </span>
-
-                                        @enderror 
-                                   </div>
-                            
-
-                                <div class="col-sm-6">
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Function Name</label>
-                                        <div class="col-md-8">
-                                            {!! Form::text('function_name', old('function_name'), ['class'=>'form-control','placeholder'=>'Enter Function Name']) !!}
-                                        </div>
-                                        @error('function_name')
-                                        <span class="invalid feedback text-danger" role="alert">
-                                        {{ $message }}
-                                        </span>
-                                        @enderror
-                                   </div>
-                                   
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Route Name</label>
-                                        <div class="col-md-8">
-                                            {!! Form::text('route_name', old('route_name'), ['class'=>'form-control','placeholder'=>'Enter Route Name']) !!}
-                                        </div>
-                                        @error('route_name')
-                                        <span class="invalid feedback text-danger" role="alert">
-                                        {{ $message }}
-                                        </span>
-                                        @enderror
-                                   </div>
-                                </div>
-
-                                <div class="col-sm-12 text-right">
-
-                                    {!! Form::submit('Submit',['class'=>'btn btn-primary']) !!}
-
-                                </div>
-
-                            </div>
+                            <!-- include files -->
+                            @include('admin.permission._form')
 
                         {!! Form::close() !!}
 

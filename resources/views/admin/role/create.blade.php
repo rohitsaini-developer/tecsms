@@ -16,9 +16,7 @@
                 <div class="col">
                     <h3 class="page-title">{{ pageTitle() }}</h3>
                     <!-- [ breadcrumb ] start -->
-
-                    @include('admin.partials.breadcrumb')
-
+                    {{--@include('admin.partials.breadcrumb')--}}
                     <!-- [ breadcrumb ] end -->
                 </div>
             </div>
@@ -58,59 +56,9 @@
 
 
 
-                        {!! Form::open(['route'=>'roles.store', 'id' => 'admin-role-add-form']) !!}
+                        {!! Form::open(['route'=>'admin.roles.store', 'id' => 'admin-role-add-form']) !!}
 
-                            <div class="row">
-
-                                <div class="col-sm-12">
-
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            {!! Form::text('name', old('name'), ['class'=>'form-control','placeholder'=>'Please enter a role name .........']) !!}
-                                        </div>
-                                   </div>
-                                   @error('name')
-                                    <span class="invalid feedback text-danger" role="alert">
-                                        {{ $message }}.
-                                    </span>
-                                   @enderror
-                                </div>
-
-                                <hr/>
-
-                                <div class="col-sm-12">
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label">Choose Permissions</label>
-                                        @if(!empty($permissions_array))
-                                            @foreach($permissions_array as $groups=>$val )
-                                                <h6>{{Str::ucfirst($groups)}}</h6>
-                                                @foreach($val as $x=>$permission)
-                                                    <div class="col-md-3">
-                                                        <div class="checkbox-btn-custm">
-                                                            <input type="checkbox"  name="permissions[]" value="{{$x}}"> 
-                                                            <label for="vehicle1">{{$permission}}</label> 
-                                                        </div>
-                                                    </div>
-
-                                                @endforeach
-                                            @endforeach
-                                        @endif
-                                        @error('permissions_array')
-                                        <span class="invalid feedback text-danger" role="alert">
-                                        {{ $message }}.
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-12">
-
-                                    {!! Form::submit('Submit',['class'=>'btn btn-primary']) !!}
-
-                                </div>
-
-                            </div>
+                            @include('admin.role._form')
 
                         {!! Form::close() !!}
 

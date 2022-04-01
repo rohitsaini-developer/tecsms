@@ -34,7 +34,7 @@
                     <h3 class="page-title">Change Password</h3>
                     <!-- [ breadcrumb ] start -->
 
-                    @include('admin.partials.breadcrumb')
+                    {{--@include('admin.partials.breadcrumb')--}}
 
                     <!-- [ breadcrumb ] end -->
                 </div>
@@ -98,7 +98,7 @@
                            
                        </script>
                     <div class="card-body border-top collapse show">
-                        {!! Form::open(['route'=>['users.updatePasswordByAdmin',$userId], 'id' => 'customer-user-updatepassword-form']) !!}
+                        {!! Form::open(['route'=>['admin.users.updatePasswordByAdmin',$userId], 'id' => 'customer-user-updatepassword-form']) !!}
                         <div class="row">
                             <div class="col-lg-12">  
                                 <div class="form-group row">
