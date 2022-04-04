@@ -68,6 +68,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::get('/user/change-password/{id}', 'UserController@changePasswordByAdmin')->name('users.changePasswordByAdmin');
     Route::post('/user/update-password/{id}', 'UserController@updatePasswordByAdmin')->name('users.updatePasswordByAdmin');
+
+    // Settings
+    Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
+        Route::get('change', 'SettingsController@change')->name('change');
+        Route::post('update-change', 'SettingsController@updateChange')->name('updateChange');
+        Route::get('delete-value/{setting}', 'SettingsController@deleteValue')->name('deleteValue');
+    });
 });
 
 // change password by current user

@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
                 'password'                  => '$2y$10$qyxYm.2dlaXROvs0OrGHseo4qbeissRMqNWdhlcr/vUqE62vN94Fi', // password
                 'email_verified_at'         => date("Y-m-d H:i:s"),
                 'phone_number'              => "9313234655",
-                'phone_country_id'          => "91",
+                'country_id'          => "91",
                 'phone_number_verified_at'  => date("Y-m-d H:i:s"),
                 'remember_token'            => null,
                 'created_at'                => date('Y-m-d H:i:s'),

@@ -76,6 +76,17 @@
                             </div>
                             <div class="form-group mb-0">
                                 <div class="row align-items-center pt-2">
+                                    <label class="col-12 col-md-3 col-form-label py-0">Phone Number :</label>
+                                    <div class="col-12 col-md-9">
+
+                                       <p> +{{ $countryCode }} &nbsp;{{ $user->phone_number }}</p>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <div class="row align-items-center pt-2">
                                     <label class="col-12 col-md-3 col-form-label py-0">Role :</label>
                                     <div class="col-12 col-md-9">
 

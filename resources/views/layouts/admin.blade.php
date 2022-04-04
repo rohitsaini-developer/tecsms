@@ -13,8 +13,7 @@
         <meta name="language" content="English">
         <title>{{ pageTitle() }} | {{ config('app.name', 'Laravel') }}</title>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-        {{-- <link rel="shortcut icon" href="{{ asset('storage')}}/{{setting('favicon')}}"> --}}
-        <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
+        <link rel="shortcut icon" href="{{ asset(getSettingDetail('favicon')->value) }}">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome/css/fontawesome.min.css')}}">
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome/css/all.min.css') }}">

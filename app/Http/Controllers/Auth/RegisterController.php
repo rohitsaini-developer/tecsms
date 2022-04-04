@@ -66,7 +66,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone_number' => ['required', 'numeric', 'unique:users,phone_number'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone_country_id' => ['exists:countries,id']
+            'country_id' => ['exists:countries,id']
         ]);
     }
 
@@ -87,9 +87,6 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // $phoneToken = str()->random(32);
-        // $emailToken = str()->random(32);
-
         $phoneToken = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTVWXYZ"), 0, 6);
         $emailToken = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTVWXYZ"), 0, 6);
 
@@ -99,13 +96,15 @@ class RegisterController extends Controller
         $input['password'] = Hash::make($input['password']);
 
         $input['register_type'] = 0;
-        $countryInfo = Country::where('id', $input['phone_country_id'])->first();
+        $country_id = Country::where('phonecode', $input['country_code'])->first()->id;
+
+        $input['country_id'] = $country_id;
 
         // create user
         $user = User::create($input);
 
         // twillo api
-        sendToken($phoneToken, "+".$countryInfo->phonecode.$user->phone_number, $user->id);
+        sendToken($phoneToken, "+".$input['country_code'].$user->phone_number, $user->id);
         // Login user
         UserAuth::login($user);
         // verify email

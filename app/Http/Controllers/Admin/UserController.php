@@ -7,6 +7,7 @@ use Hash;
 use Auth;
 use App\Models\User;
 use App\Models\Country;
+use App\Models\UserToken;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
 use Spatie\Permission\Models\Role;
@@ -50,6 +51,9 @@ class UserController extends Controller
     public function store(StoreRequest $request)
     {
         $input = $request->all();
+        $country_id = Country::where('phonecode', $input['country_code'])->first()->id;
+        
+        $input['country_id']                = $country_id;
         $input['password']                  = Hash::make($request->password);
         $input['email_verified_at']         = date('Y-m-d H:i:s');
         $input['phone_number_verified_at']  = date('Y-m-d H:i:s');
@@ -58,6 +62,17 @@ class UserController extends Controller
         $create_user =  User::create($input);
 
         $create_user->assignRole($request->roles);
+
+        // store token
+        /* $phoneToken = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTVWXYZ"), 0, 6);
+        $emailToken = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTVWXYZ"), 0, 6);
+        UserToken::create([
+            'user_id'               => $create_user->id,
+            'user_email_token'      => $emailToken,
+            'email_token_status'    => 2,
+            'user_phone_token'      => $phoneToken,
+            'phone_token_status'    => 2,
+        ]); */
 
         if($create_user){
             return to_route('admin.users.index')->with('success', 'User added successfully!');
@@ -75,7 +90,8 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user->with('roles');
-        return view('admin.user.show',compact('user'));
+        $countryCode = Country::where('id', $user->country_id)->first()->phonecode;
+        return view('admin.user.show',compact('user', 'countryCode'));
     }
 
     /**
@@ -88,8 +104,9 @@ class UserController extends Controller
     {
         $user->with('roles');
         $countries = Country::all()->pluck('sortname', 'id');
+        $countryCode = Country::where('id', $user->country_id)->first()->phonecode;
         $roles = Role::whereNotIn('name', ['admin'])->pluck('name','id');
-        return view('admin.user.edit',compact('user','roles', 'countries'));
+        return view('admin.user.edit',compact('user','roles', 'countries', 'countryCode'));
     }
 
     /**
@@ -101,7 +118,11 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request, User $user)
     {
-        $user->update($request->all());
+        $input = $request->all();
+        $country_id = Country::where('phonecode', $input['country_code'])->first()->id;
+        $input['country_id'] = $country_id;
+
+        $user->update($input);
         $user->roles()->sync([$request->roles]);
 
         if($user){

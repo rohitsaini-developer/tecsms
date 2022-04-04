@@ -49,9 +49,9 @@ class UsersDataTable extends DataTable
                         <input type="hidden" name="_token" value="'.csrf_token().'">
                         <button class="btn btn-sm p-0 text-danger me-2" type="submit"><i class="far fa-trash-alt me-1"></i></button></form>';
                 }
-                if(Gate::check('user-change-password-admin')){
+                /* if(Gate::check('user-change-password-admin')){
                     $action .= '<a href="'.route('admin.users.changePasswordByAdmin', $record->id).'" class="text-gray me-2"><i class="fas fa-lock me-1" title="Change Password"></i></a>';
-                }
+                } */
                 return $action;
             })            
             ->rawColumns(['action']);

@@ -49,10 +49,10 @@ class StoreRequest extends FormRequest
                 'string', 
                 'min:8', 
             ],
-            'phone_country_id' => [
+            /* 'country_id' => [
                 'required',
                 'exists:countries,id'
-            ]
+            ] */
         ];
     }
 }

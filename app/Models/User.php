@@ -33,7 +33,7 @@ class User extends Authenticatable
         'password',
         'email_verified_at',
         'phone_number',
-        'phone_country_id',
+        'country_id',
         'phone_number_verified_at',
         'register_type',
         'social_login_id',
@@ -60,6 +60,6 @@ class User extends Authenticatable
     }
     public function country()
     {
-        return $this->belongsTo(Country::class, 'phone_country_id', 'id');
+        return $this->belongsTo(Country::class, 'country_id', 'id');
     }
 }

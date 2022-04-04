@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section("styles")
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" rel="stylesheet"/>
     <style>
         /* add appropriate colors to fb, twitter and google buttons */
         .fb {
@@ -70,6 +71,9 @@
                 text-align: center;
             }
         }
+        .iti {
+            width: 100%;
+        }
     </style>
 @endsection
 @section('content')
@@ -113,28 +117,10 @@
                         <div class="row mb-3">
                             <label for="phone_number" class="col-md-4 col-form-label text-md-end">{{ __('Phone Number') }}</label>
                             
-                            <div class="col-md-6 row">
-                                <div class="col-md-4">
-                                    <select name="phone_country_id" id="country_id" class="form-control select2 @error('phone_country_id') is-invalid @enderror">
-                                        @foreach($countries as $country)
-                                            <option value="{{ $country->id }}"> +{{ $country->phonecode }} {{ $country->sortname }} </option>
-                                        @endforeach
-                                    </select>
-                                    @error('phone_country_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-8 ">
-                                    <input id="phone_number" type="number" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" required autocomplete="phone_number">
-
-                                    @error('phone_number')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                            <div class="col-md-6">
+                                <input type="hidden" name="country_code" id="country_code" value="">
+                                                         
+                                <input type="text" class="form-control" placeholder="Phone Number"  name="phone_number" id="phone_number" value="">
                             </div>
                         </div>
 
@@ -185,4 +171,36 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        changeCurrencyFlag('+1');
+    });
+
+    function changeCurrencyFlag(flagcode){
+        $('.iti__selected-flag').remove();
+        // $('#phone_number').mask('(999) 999-9999');
+
+        var input = document.querySelector("#phone_number");
+        var iti = window.intlTelInput(input, {
+            separateDialCode: true,
+            preferredCountries:['in','us'],
+            initialCountry: "us",
+        });
+    
+        iti.setNumber(flagcode);
+        var countryData = iti.getSelectedCountryData();
+        // console.log(countryData);
+        $('#country_code').val(countryData['dialCode']);
+        
+        input.addEventListener("countrychange", function() {
+        // do something with iti.getSelectedCountryData()
+            var countryData = iti.getSelectedCountryData();
+            $('#country_code').val(countryData['dialCode']);
+        });
+    }
+</script>
 @endsection

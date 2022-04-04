@@ -21,6 +21,11 @@
                     </ul>
                 </li>
                 @endif
+                @can('change-setting')
+                <li class="{{ is_active('admin.settings.change') }}">
+                    <a  href="{{ route('admin.settings.change') }}"><i class="fas fa-cogs me-1"></i> <span>Setting</span></a>
+                </li>
+                @endcan
             </ul>
         </div>
     </div>

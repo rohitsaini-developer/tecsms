@@ -2,10 +2,10 @@
 
 	<div class="header-left">
 		<a href="{{route('admin.home')}}" class="logo">
-			<img src="{{ asset('img')}}/logo.png" alt="Logo">
+			<img src="{{ asset(getSettingDetail('website_logo')->value) }}" alt="Logo">
 		</a>
 		<a href="{{route('admin.home')}}" class="logo logo-small">
-			<img src="{{ asset('img')}}/logo-small.png" alt="Logo" width="30" height="30">
+			<img src="{{ asset(getSettingDetail('mobile_logo')->value) }}" alt="Logo" width="30" height="30">
 		</a>
 	</div>
 
@@ -33,7 +33,7 @@
 					{{-- <a class="dropdown-item" href="{{ route('users.profile') }}"><i data-feather="user" class="me-1"></i> Profile</a> --}}
 				@endcan
 				@can('change-setting')
-					<a class="dropdown-item" href="#"><i class="fas fa-cogs me-1"></i> Settings</a>
+					<a class="dropdown-item" href="{{ route('admin.settings.change') }}"><i class="fas fa-cogs me-1"></i> Settings</a>
 				@endcan
 				@can('user-change-password')
 					@if(auth()->user()->hasRole('admin'))

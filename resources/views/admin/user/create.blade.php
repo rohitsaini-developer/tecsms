@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 
 @section('styles')
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" rel="stylesheet"/>
+    <style>
+        .iti {
+            width: 100%;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -83,6 +88,8 @@
 
 
 @section('scripts')
+
+@include('admin.user.partials._script')
 
 <!-- jquery-validation Js -->
 

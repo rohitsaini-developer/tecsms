@@ -201,6 +201,20 @@ class PermissionsTableSeeder extends Seeder
                 'function_name'   => 'updatePasswordByAdmin',
                 'route_name'      => 'users'
             ],
+            [
+                'name'            => 'change-setting',
+                'guard_name'      => 'web',
+                'controller_name' => 'settings',
+                'function_name'   => 'change',
+                'route_name'      => 'settings'
+            ],
+            [
+                'name'            => 'change-setting-update',
+                'guard_name'      => 'web',
+                'controller_name' => 'settings',
+                'function_name'   => 'updateChange',
+                'route_name'      => 'settings'
+            ],
         ];
 
         foreach($permissions as $permission_val){

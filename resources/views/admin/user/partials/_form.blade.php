@@ -27,24 +27,14 @@
 <div class="col-sm-6">
     <div class="form-group">
         {!! Form::label('phone_number', 'Phone Number') !!}
-        <div class="col-md-12 row">
-            <div class="col-md-4">
-                {!!Form::select('phone_country_id', $countries, isset($user) ? $user->phone_country_id : '', ['class' => 'form-control select2'])!!}
-                @error('phone_country_id')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="col-md-8 ">
-                {!! Form::text('phone_number', old('phone_number', isset($user) ? $user->phone_number : ''), ['class'=>'form-control','placeholder'=>'Enter Phome Number', 'required' => 'true']) !!}
-                @error('phone_number')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-        </div>
+            {!! Form::hidden('country_code', isset($countryCode) ? $countryCode : null, ['class'=>'form-control', 'id' => 'country_code']) !!}
+
+            {!! Form::text('phone_number', old('phone_number', isset($user) ? $user->phone_number : ''), ['class'=>'form-control', 'id' => 'phone_number','placeholder'=>'Enter Phome Number', 'required' => 'true']) !!}
+            @error('phone_number')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
     </div>
 </div>
 

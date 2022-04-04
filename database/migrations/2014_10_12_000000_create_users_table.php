@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number');
-            $table->unsignedBigInteger('phone_country_id');
+            $table->unsignedBigInteger('country_id');
             $table->dateTime('phone_number_verified_at')->nullable();
             $table->tinyInteger('register_type')->default(0)->comment('0=> registeration page, 1 => Facebook, 2 => Google, 3 => Apple, 4=> By admin(postpaid user)');
             $table->string('social_login_id')->nullable();

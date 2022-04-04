@@ -44,10 +44,10 @@ class UpdateRequest extends FormRequest
                 'numeric', 
                 'unique:users,phone_number,'.$this->user->id
             ],
-            'phone_country_id' => [
+            /* 'country_id' => [
                 'required',
                 'exists:countries,id'
-            ]
+            ] */
         ];
     }
 }
