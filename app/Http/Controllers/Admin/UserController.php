@@ -37,9 +37,8 @@ class UserController extends Controller
     public function create()
     {
         abort_if(Gate::denies('user-add'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $countries = Country::all()->pluck('sortname', 'id');
         $roles = Role::whereNotIn('name', ['admin', 'postpaid'])->pluck('name','id');
-        return view('admin.user.create', compact('roles', 'countries'));
+        return view('admin.user.create', compact('roles'));
     }
 
     /**
@@ -103,10 +102,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $user->with('roles');
-        $countries = Country::all()->pluck('sortname', 'id');
         $countryCode = Country::where('id', $user->country_id)->first()->phonecode;
         $roles = Role::whereNotIn('name', ['admin'])->pluck('name','id');
-        return view('admin.user.edit',compact('user','roles', 'countries', 'countryCode'));
+        return view('admin.user.edit',compact('user','roles', 'countryCode'));
     }
 
     /**

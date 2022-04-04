@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Carbon\Carbon;
 
 class SettingTableSeeder extends Seeder
 {
@@ -62,44 +62,44 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'facebook_url',
-                'value' => '',
+                'value' => 'https://facebook.com',
                 'type' => 'text',
                 'display_name' => 'Facebook URL',
                 'details' => '',
-                'tag' => '',
+                'tag' => 'social-links',
                 'group' => 'site',
                 'status' => 'publish',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
                 'key' => 'twitter_url',
-                'value' => '',
+                'value' => 'https://twitter.com',
                 'type' => 'text',
                 'display_name' => 'Twitter URL',
                 'details' => '',
-                'tag' => '',
+                'tag' => 'social-links',
                 'group' => 'site',
                 'status' => 'publish',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
                 'key' => 'instagram_url',
-                'value' => '',
+                'value' => 'https://instagram.com',
                 'type' => 'text',
                 'display_name' => 'Instagram URL',
                 'details' => '',
-                'tag' => '',
+                'tag' => 'social-links',
                 'group' => 'site',
                 'status' => 'publish',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
                 'key' => 'youtube_url',
-                'value' => '',
+                'value' => 'https://youtube.com',
                 'type' => 'text',
                 'display_name' => 'Youtube URL',
                 'details' => '',
-                'tag' => '',
+                'tag' => 'social-links',
                 'group' => 'site',
                 'status' => 'publish',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -139,7 +139,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'company_email',
-                'value' => '',
+                'value' => 'company@gmail.com',
                 'type' => 'email',
                 'display_name' => 'Company Email',
                 'details' => '',
@@ -150,7 +150,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'phone_number',
-                'value' => '',
+                'value' => '1452369870',
                 'type' => 'text',
                 'display_name' => 'Phone Number',
                 'details' => '',
@@ -161,7 +161,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'admin_email',
-                'value' => '',
+                'value' => 'admin@gmail.com',
                 'type' => 'email',
                 'display_name' => 'Admin Email',
                 'details' => '',
@@ -172,7 +172,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'paypal_email',
-                'value' => '',
+                'value' => 'paypal@gmail.com',
                 'type' => 'email',
                 'display_name' => 'Paypal Mail',
                 'details' => '',
@@ -205,9 +205,20 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'notification_email',
-                'value' => '',
+                'value' => 'notification@gmail.com',
                 'type' => 'email',
                 'display_name' => 'Notification Email',
+                'details' => '',
+                'tag' => '',
+                'group' => 'company',
+                'status' => 'publish',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'key' => 'copyringt_message',
+                'value' => 'This is test copyright message',
+                'type' => 'text_area',
+                'display_name' => 'Copyright Message',
                 'details' => '',
                 'tag' => '',
                 'group' => 'company',
@@ -227,7 +238,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'paypal_client_id',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Paypal Client Id',
                 'details' => '',
@@ -238,7 +249,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'paypal_client_secret',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Paypal Client Secret',
                 'details' => '',
@@ -249,7 +260,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'paypal_api_username',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Paypal Api Username',
                 'details' => '',
@@ -260,18 +271,18 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'paypal_api_password',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Paypal Api Password',
                 'details' => '',
-                'tag' => '',
+                'tag' => '123456abcd',
                 'group' => 'keys',
                 'status' => 'publish',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
                 'key' => 'paypal_api_secret',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Paypal Api Secret',
                 'details' => '',
@@ -282,7 +293,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'google_client_id',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Google Client Id',
                 'details' => '',
@@ -293,7 +304,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'google_client_secret',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Google Client Secret',
                 'details' => '',
@@ -304,7 +315,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'google_redirect_url',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Google Redirect URL',
                 'details' => '',
@@ -315,7 +326,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'facebook_client_id',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Facebook Client Id',
                 'details' => '',
@@ -326,7 +337,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'facebook_client_secret',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Facebook Client Secret',
                 'details' => '',
@@ -337,7 +348,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'facebook_redirect_url',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Facebook Redirect URL',
                 'details' => '',
@@ -348,7 +359,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'twilio_sid',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Twilio SID',
                 'details' => '',
@@ -359,7 +370,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'twilio_token',
-                'value' => '',
+                'value' => '123456abcd',
                 'type' => 'text',
                 'display_name' => 'Twilio Client Secret',
                 'details' => '',
@@ -370,7 +381,7 @@ class SettingTableSeeder extends Seeder
             ],
             [
                 'key' => 'twilio_from_number',
-                'value' => '',
+                'value' => '123456',
                 'type' => 'text',
                 'display_name' => 'Twilio Number',
                 'details' => '',

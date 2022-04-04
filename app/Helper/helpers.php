@@ -9,17 +9,17 @@ if (!function_exists('pageTitle')) {
         $reqPathInfo = ltrim(request()->getPathInfo(), '/');
         $parsePathInfo = explode("/",$reqPathInfo);
         $title = "";
-        $count = 1;
         if(!empty($parsePathInfo) && is_array($parsePathInfo)){
-            foreach($parsePathInfo AS $path){
-                if($count <= 3){
+            foreach($parsePathInfo AS $key => $path){
+                if($path == 'admin'){
+                    continue;
+                }
+                if($key <= 5){
                     if(is_string($path) && !is_numeric($path)){
                         $singular = Str::singular($path);
-                        $ucFirst = Str::ucfirst($singular);
-                        $title .= preg_replace('/[\s-]+/', '-', $ucFirst)." ";
+                        $title .= ucwords(str_replace('-', ' ', preg_replace('/[\s-]+/', '-', $singular)))." ";
                     }
                 }
-                $count++;
             }
         }
         return $title;
@@ -47,10 +47,10 @@ if (!function_exists('sendToken')) {
 }
 
 if (!function_exists('sendMail')) {
-    function sendMail($email_template, $data, $user) {
-        Mail::send($email_template, $data, function($message) use($user){
+    function sendMail($email_template, $data, $user, $subject) {
+        Mail::send($email_template, $data, function($message) use($user, $subject){
             $message->to($user->email);
-            $message->subject('Email Verification Mail');
+            $message->subject($subject);
         });
     }
 }
@@ -64,4 +64,14 @@ if (!function_exists('getSettingDetail')) {
 		$setting = Setting::where('key', $key)->first();
 		return $setting;
 	}
+}
+
+if(!function_exists('breadcrumbs')){
+    function breadcrumbs(){
+        $breadcrumbs = [];
+        foreach(request()->segments() as $key => $segment){
+            $breadcrumbs[$segment] = implode('/', array_slice(request()->segments(), 0, $key+1));
+        }
+        return $breadcrumbs;
+    }
 }

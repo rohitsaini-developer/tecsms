@@ -54,7 +54,7 @@
                     <h3 class="page-title">Settings</h3>
                     <!-- [ breadcrumb ] start -->
 
-                    {{--@include('admin.partials.breadcrumb')--}}
+                    @include('admin.partials.breadcrumb')
 
                     <!-- [ breadcrumb ] end -->
                 </div>

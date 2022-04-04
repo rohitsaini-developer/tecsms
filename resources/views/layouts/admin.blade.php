@@ -39,6 +39,9 @@
             .select2-container .select2-selection--single .select2-selection__arrow {
                 height: 41px;
             }
+            .breadcrumb-item.active a {
+                color: #9f9f9f !important;
+            }
         </style>
         @yield('styles')
     </head>

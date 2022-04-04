@@ -108,7 +108,7 @@ class RegisterController extends Controller
         // Login user
         UserAuth::login($user);
         // verify email
-        sendMail('partials.email-template.verify-email', ['user_id' => $user->id,'token' => $emailToken], $user);
+        sendMail('partials.email-template.verify-email', ['user_id' => $user->id,'token' => $emailToken], $user, 'Verify email');
         
         // add role
         $user->assignRole(3);

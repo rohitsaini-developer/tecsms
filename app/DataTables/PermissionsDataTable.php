@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use Spatie\Permission\Models\Permission;
+use Gate;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Services\DataTable;
-use Gate;
 
 class PermissionsDataTable extends DataTable
 {

@@ -27,13 +27,14 @@
 <div class="col-sm-6">
     <div class="form-group">
         {!! Form::label('phone_number', 'Phone Number') !!}
-            {!! Form::hidden('country_code', isset($countryCode) ? $countryCode : null, ['class'=>'form-control', 'id' => 'country_code']) !!}
-
+            {!! Form::hidden('country_code', old('country_code', isset($countryCode) ? $countryCode : ''), ['class'=>'form-control', 'id' => 'country_code']) !!}
+    
             {!! Form::text('phone_number', old('phone_number', isset($user) ? $user->phone_number : ''), ['class'=>'form-control', 'id' => 'phone_number','placeholder'=>'Enter Phome Number', 'required' => 'true']) !!}
+            @error('country_code')
+            <span class="invalid feedback text-danger custm-right" role="alert"> {{ $message }}</span>
+            @enderror
             @error('phone_number')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
+                <span class="invalid feedback text-danger custm-right" role="alert"> {{ $message }}</span>
             @enderror
     </div>
 </div>
@@ -57,7 +58,7 @@
     <div class="form-group">
         {!! Form::label('roles', 'Select Role') !!}
         <div class="">
-            {!!Form::select('roles', $roles, isset($user) ? $user->roles->first()->id : '', ['class' => 'form-control select2','placeholder' => 'Select Role'])!!}
+            {!!Form::select('roles', $roles, old('roles', isset($user) ? $user->roles->first()->id : null), ['class' => 'form-control select2','placeholder' => 'Select Role'])!!}
         </div>
         @error('roles')
         <span class="invalid feedback text-danger custm-right" role="alert">

@@ -20,7 +20,7 @@
                 <div class="col">
                     <h3 class="page-title">{{ pageTitle() }}</h3>
                     <!-- [ breadcrumb ] start -->
-                    {{--@include('admin.partials.breadcrumb')--}}
+                    @include('admin.partials.breadcrumb')
                     <!-- [ breadcrumb ] end -->
                 </div>
             </div>

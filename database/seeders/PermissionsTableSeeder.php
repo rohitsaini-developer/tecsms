@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -214,6 +214,104 @@ class PermissionsTableSeeder extends Seeder
                 'controller_name' => 'settings',
                 'function_name'   => 'updateChange',
                 'route_name'      => 'settings'
+            ],
+            [
+                'name'            => 'postpaid-user-browse',
+                'guard_name'      => 'web',
+                'controller_name' => 'postpaid-users',
+                'function_name'   => 'index',
+                'route_name'      => 'postpaid-users'
+            ],
+            [
+                'name'            => 'postpaid-user-add',
+                'guard_name'      => 'web',
+                'controller_name' => 'postpaid-users',
+                'function_name'   => 'create',
+                'route_name'      => 'postpaid-users'
+            ],
+            [
+                'name'            => 'postpaid-user-store',
+                'guard_name'      => 'web',
+                'controller_name' => 'postpaid-users',
+                'function_name'   => 'store',
+                'route_name'      => 'postpaid-users'
+            ],
+            [
+                'name'            => 'postpaid-user-edit',
+                'guard_name'      => 'web',
+                'controller_name' => 'postpaid-users',
+                'function_name'   => 'edit',
+                'route_name'      => 'postpaid-users'
+            ],
+            [
+                'name'            => 'postpaid-user-update',
+                'guard_name'      => 'web',
+                'controller_name' => 'postpaid-users',
+                'function_name'   => 'update',
+                'route_name'      => 'postpaid-users'
+            ],
+            [
+                'name'            => 'postpaid-user-view',
+                'guard_name'      => 'web',
+                'controller_name' => 'postpaid-users',
+                'function_name'   => 'show',
+                'route_name'      => 'postpaid-users'
+            ],
+            [
+                'name'            => 'postpaid-user-delete',
+                'guard_name'      => 'web',
+                'controller_name' => 'postpaid-users',
+                'function_name'   => 'destroy',
+                'route_name'      => 'postpaid-users'
+            ],
+            [
+                'name'            => 'package-browse',
+                'guard_name'      => 'web',
+                'controller_name' => 'packages',
+                'function_name'   => 'index',
+                'route_name'      => 'packages'
+            ],
+            [
+                'name'            => 'package-add',
+                'guard_name'      => 'web',
+                'controller_name' => 'packages',
+                'function_name'   => 'create',
+                'route_name'      => 'packages'
+            ],
+            [
+                'name'            => 'package-store',
+                'guard_name'      => 'web',
+                'controller_name' => 'packages',
+                'function_name'   => 'store',
+                'route_name'      => 'packages'
+            ],
+            [
+                'name'            => 'package-edit',
+                'guard_name'      => 'web',
+                'controller_name' => 'packages',
+                'function_name'   => 'edit',
+                'route_name'      => 'packages'
+            ],
+            [
+                'name'            => 'package-update',
+                'guard_name'      => 'web',
+                'controller_name' => 'packages',
+                'function_name'   => 'update',
+                'route_name'      => 'packages'
+            ],
+            [
+                'name'            => 'package-view',
+                'guard_name'      => 'web',
+                'controller_name' => 'packages',
+                'function_name'   => 'show',
+                'route_name'      => 'packages'
+            ],
+            [
+                'name'            => 'package-delete',
+                'guard_name'      => 'web',
+                'controller_name' => 'packages',
+                'function_name'   => 'destroy',
+                'route_name'      => 'packages'
             ],
         ];
 

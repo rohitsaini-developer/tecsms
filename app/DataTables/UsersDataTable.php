@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
+use Gate;
 use App\Models\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
-use Gate;
 
 class UsersDataTable extends DataTable
 {

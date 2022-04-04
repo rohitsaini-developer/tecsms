@@ -31,7 +31,7 @@
                     <h3 class="page-title">Users</h3>
                     <!-- [ breadcrumb ] start -->
 
-                    {{--@include('admin.partials.breadcrumb')--}}
+                    @include('admin.partials.breadcrumb')
 
                     <!-- [ breadcrumb ] end -->
                 </div>

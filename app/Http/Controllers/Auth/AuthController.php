@@ -53,7 +53,7 @@ class AuthController extends Controller
             'user_email_token'  => $emailToken,
         ]);
 
-        sendMail('partials.email-template.verify-email', ['user_id' => $user->id,'token' => $emailToken], $user);
+        sendMail('partials.email-template.verify-email', ['user_id' => $user->id,'token' => $emailToken], $user, 'Resend Verify email');
         $messageEmailResend = "A new varifcation url send to your registered email address";
         return view('auth.verify', compact('messageEmailResend'));
     }

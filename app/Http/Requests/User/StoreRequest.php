@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Gate;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,6 +27,7 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
+        $roles = Role::whereNotIn('name', ['admin', 'postpaid'])->pluck('id');
         return [
             'name' => [
                 'required', 
@@ -49,10 +51,14 @@ class StoreRequest extends FormRequest
                 'string', 
                 'min:8', 
             ],
-            /* 'country_id' => [
+            'country_code' => [
                 'required',
-                'exists:countries,id'
-            ] */
+                'exists:countries,phonecode'
+            ],
+            'roles' => [
+                'required',
+                'in:'.implode(',',$roles->toArray()),
+            ],
         ];
     }
 }

@@ -14,6 +14,9 @@ class Permission extends SpatiePermission
     protected $fillable = [
         'name',
         'guard_name',
+        'controller_name',
+        'function_name',
+        'route_name',
     ];
 
     protected $dates = [

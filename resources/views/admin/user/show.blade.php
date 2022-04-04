@@ -14,10 +14,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">{{ pageTitle() }}</h3>
+                    <h3 class="page-title">{{ pageTitle() }} Show</h3>
                     <!-- [ breadcrumb ] start -->
 
-                    {{--@include('admin.partials.breadcrumb')--}}
+                    @include('admin.partials.breadcrumb')
 
                     <!-- [ breadcrumb ] end -->
                 </div>

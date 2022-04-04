@@ -65,6 +65,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController');
     Route::resource('permissions', 'PermissionController');
+    Route::resource('postpaid-users', 'PostpaidUserController', ['parameters' => ['postpaid-users' => 'postpaidUser']]);
 
     Route::get('/user/change-password/{id}', 'UserController@changePasswordByAdmin')->name('users.changePasswordByAdmin');
     Route::post('/user/update-password/{id}', 'UserController@updatePasswordByAdmin')->name('users.updatePasswordByAdmin');
@@ -75,6 +76,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::post('update-change', 'SettingsController@updateChange')->name('updateChange');
         Route::get('delete-value/{setting}', 'SettingsController@deleteValue')->name('deleteValue');
     });
+
+    // package
+    Route::resource('packages', 'PackageController');
 });
 
 // change password by current user

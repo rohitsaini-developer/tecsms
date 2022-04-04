@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-
 use Gate;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
+use App\DataTables\PermissionsDataTable;
 use Symfony\Component\HttpFoundation\Response;
 
-use App\DataTables\PermissionsDataTable;
 
 class PermissionController extends Controller
 {

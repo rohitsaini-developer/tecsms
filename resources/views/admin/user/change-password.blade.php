@@ -33,7 +33,7 @@
                     <h3 class="page-title">Change Password</h3>
                     <!-- [ breadcrumb ] start -->
 
-                    {{--@include('admin.partials.breadcrumb')--}}
+                    @include('admin.partials.breadcrumb')
 
                     <!-- [ breadcrumb ] end -->
                 </div>

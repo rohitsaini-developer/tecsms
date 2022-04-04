@@ -1,8 +1,8 @@
 <?php
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use DB;
+use Illuminate\Database\Seeder;
 
 class CountryTableSeeder extends Seeder
 {
